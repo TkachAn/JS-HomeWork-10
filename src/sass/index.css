@@ -1,0 +1,104 @@
+@import '~node_modules/modern-normalize/modern-normalize.css';
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+  background-repeat: no-repeat;
+}
+
+li {
+  list-style-type: none;
+}
+
+div,
+input,
+use,
+svg,
+html,
+body,
+ol,
+ul,
+li,
+dl,
+dt,
+dd,
+p {
+  padding: 0;
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 0;
+}
+
+.container {
+  padding-left: 3rem;
+  padding-right: 3rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  background-color: beige;
+}
+
+.list {
+  display: flex;
+}
+
+.list p {
+  margin-left: 10px;
+  font-size: 18px;
+}
+
+.list_flag {
+  height: 44px;
+  width: 40px;
+  position: relative;
+  transform: translate(5%, 10%);
+}
+
+.list_flag img {
+  width: 30px;
+}
+
+.bolt b {
+  display: block;
+  font-size: 35px;
+  margin: 0 0 0 15px;
+  padding: 0;
+}
+
+.box {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.box_flag {
+  position: relative;
+  transform: translate(5%, 24%);
+}
+
+.box_flag img {
+  -o-object-fit: contain;
+     object-fit: contain;
+  width: 50px;
+}
+
+.box li p {
+  font-size: 20px;
+}
+
+li b {
+  font-size: 18px;
+}
