@@ -2,7 +2,7 @@
   "name": "JS-HomeWork-10",
   "version": "2.0.0",
   "description": "",
-  "homepage": "https://TkachAn.github.io/JS-HomeWork-10",
+  "homepage": "https://TkachAn.github.io/JS-HomeWork-10/",
   "scripts": {
     "start": "parcel src/*.html",
     "build": "parcel build src/*.html --public-url /JS-HomeWork-10/"
