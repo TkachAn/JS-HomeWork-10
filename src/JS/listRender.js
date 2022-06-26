@@ -1,5 +1,5 @@
-export default function list(cntr) {
-	outBox.innerHTML = '';
+export default function list(cntr, inner, reset) {
+	inner.innerHTML = '';
 	const markup = cntr
 		.map((cntr) => {
 			return `<li class = "list">
@@ -9,5 +9,5 @@ export default function list(cntr) {
 				<p><b>${cntr.name.common}</b></p>
 			</li>`;
 		}).join("");
-	outList.innerHTML = markup;
+	reset.innerHTML = markup;
 }

@@ -1,83 +1,83 @@
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-import { debounce, functionsIn } from 'lodash';
+import { debounce} from 'lodash';
 import './css/styles.css';
-//import { list } from './JS/listRender.js';
-//import { card } from './JS/card.js';
-//import './JS/fetchCountries.js';
-const DEBOUNCE_DELAY = 300;
+import fetchCountries from './JS/fetchCountries.js';
+import control from './JS/control';
+import list from './JS/listRender';
+import card from './JS/cardRender';
 
+const DELAY = 500;
 const input = document.querySelector('#search-box');
-//const input = document.getElementsById('search-box');
 const outList = document.querySelector('.country-list');
 const outBox = document.querySelector('.country-info');
 
-input.addEventListener('input', (event) => {//(event) => {//debounce((event) => {//
-	let eName = event.currentTarget.value;
-	console.log("trim before", eName);
-	eName = eName.trim();//debounce(e.trim(), 1000);//
-	console.log("trim after", eName);
-	fetchCountries(eName)
-		.then(e => {render(e,list,card)})//renderList(e)
-		.catch(error => console.log(error))
-});////});//
+input.addEventListener('input', debounce(fun, DELAY));
 
-function fetchCountries(name) {
+function fun(event){
+	let eName = event.target.value.trim();
+	fetchCountries(eName,outBox,outList)//, outBox, outList
+		.then(e => {control(e, list, card, outBox, outList)})
+		.catch(error => console.log(error))
+}
+
+
+function fetchCountries(name,reset1,reset2) {
 	return fetch(`https://restcountries.com/v3.1/name/${name}?fields=name,capital,population,languages,name.official,flags`).then(response => {
 		if (response.ok) {
 			return response.json();
 		}
 		Notify.failure("Oops, there is no country with that name");
-		outList.innerHTML = ''; outBox.innerHTML = '';
+		reset1.innerHTML = ''; reset2.innerHTML = '';
 		throw new Error(response.status);
 	});
 };
 //******* */
-function render(countries, many, one) {
-	if(countries.length > 10) {
-		console.log("countries", countries);
-		return Notify.info("Too many matches found. Please enter a more specific name.");
-	}
-	if(countries.length !== 1) {
-		many(countries);
-	} else {
-		one(countries);
-	}
-}	
+// function render(countries, many, one, inner, reset) {
+// 	if(countries.length > 10) {
+// 		console.log("countries", countries);
+// 		return Notify.info("Too many matches found. Please enter a more specific name.");
+// 	}
+// 	if(countries.length !== 1) {
+// 		many(countries, reset, inner);
+// 	} else {
+// 		one(countries, inner, reset);
+// 	}
+// }	
 
-function list(cntr) {
-	outBox.innerHTML = '';
-	const markup = cntr
-		.map((cntr) => {
-			return `<li class = "list">
-			<div class = "list_flag">
-				<img src=${cntr.flags.svg} alt="flag"/>
-			</div>
-				<p><b>${cntr.name.common}</b></p>
-			</li>`;
-		}).join("");
-	outList.innerHTML = markup;
-}
+// function list(cntr) {
+// 	outBox.innerHTML = '';
+// 	const markup = cntr
+// 		.map((cntr) => {
+// 			return `<li class = "list">
+// 			<div class = "list_flag">
+// 				<img src=${cntr.flags.svg} alt="flag"/>
+// 			</div>
+// 				<p><b>${cntr.name.common}</b></p>
+// 			</li>`;
+// 		}).join("");
+// 	outList.innerHTML = markup;
+// }
 
-function card(cntr) {
-	outList.innerHTML = '';
-	const markup = cntr
-	.map((cntr) => {
-		const language = Object.values(cntr.languages);
-		return `<ul>
-			<li class = "box">
-				<div class = "box_flag">
-					<img src=${cntr.flags.svg} alt="flag"/>
-				</div>
-				<div class = "bolt"><b>${cntr.name.common}</b></div>
-			</li>
-			<li><p><b>Name official</b>: ${cntr.name.official}</p></li>
-			<li><p><b>capital</b>: ${cntr.capital}</p></li>
-			<li><p><b>population</b>: ${cntr.population}</p></li>
-			<li><p><b>languages</b>: ${language}</p></li>
-		</ul>`;
-	}).join("");
-	outBox.innerHTML = markup;
-}
+// function card(cntr) {
+// 	outList.innerHTML = '';
+// 	const markup = cntr
+// 	.map((cntr) => {
+// 		const language = Object.values(cntr.languages);
+// 		return `<ul>
+// 			<li class = "box">
+// 				<div class = "box_flag">
+// 					<img src=${cntr.flags.svg} alt="flag"/>
+// 				</div>
+// 				<div class = "bolt"><b>${cntr.name.common}</b></div>
+// 			</li>
+// 			<li><p><b>Name official</b>: ${cntr.name.official}</p></li>
+// 			<li><p><b>capital</b>: ${cntr.capital}</p></li>
+// 			<li><p><b>population</b>: ${cntr.population}</p></li>
+// 			<li><p><b>languages</b>: ${language}</p></li>
+// 		</ul>`;
+// 	}).join("");
+// 	outBox.innerHTML = markup;
+// }
 
 
 // //******* */
@@ -124,57 +124,3 @@ function card(cntr) {
 // 	outBox.innerHTML = markup; 
 // }
 // }
-
-// function renderCountry(countries) {
-//   const markup = countries
-//     .map((country) => {
-//       return `<ul>
-//           <li><b>Name official</b>: ${country.name.official}</li>
-//           <li><b>capital</b>: ${country.capital}</li>
-//           <li><b>population</b>: ${country.population}</li>
-//           <li><b>Name</b>: ${country.name.common}</li>
-//           <li><b>flag</b>: ${country.flags.svg}</li>
-// 			 <li><b>languages</b>: ${country.languages}</li>
-// 			</ul>`;
-//     })
-//     .join("");
-//   outBox.innerHTML = markup;
-// }
-
-// function cardCountry(cntr) {
-// 	`<ul>
-// 		<li class = "box">
-// 			<div class = "box_flag">
-// 				<img src=${cntr.flags.svg} alt="flag"/>
-// 			</div>
-// 			<div class = "bolt">
-// 				<b>${cntr.name.common}</b>
-// 			</div>
-// 		</li>
-// 		<li>
-// 			<p><b>Name official</b>: ${cntr.name.official}</p>
-// 		</li>
-// 		<li>
-// 			<p><b>capital</b>: ${cntr.capital}</p>
-// 		</li>
-// 		<li>
-// 			<p><b>population</b>: ${cntr.population}</p>
-// 		</li>
-// 		<li>
-// 			<p><b>languages</b>: ${Object.values(cntr.languages)}</p>
-// 		</li>
-// 	</ul>`;
-// }	
-// input.addEventListener('input', (event) => {//debounce( ,300)
-// 	let e = event.currentTarget.value;
-//    const prom = new Promise((resolve, reject) => {
-  // Asynchronous operation
-//})
-// 	console.log("trim before", e);
-// 	e = e.trim();//debounce(e.trim(), 1000);//
-// 	console.log("trim after", e);
-// 	return e;
-// 	
-// }).fetchCountries(e)
-// 		.then(e => {renderList(e)})
-// 		.catch(error => console.log(error))
