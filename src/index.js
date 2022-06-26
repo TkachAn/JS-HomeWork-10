@@ -21,16 +21,16 @@ function fun(event){
 }
 
 
-function fetchCountries(name,reset1,reset2) {
-	return fetch(`https://restcountries.com/v3.1/name/${name}?fields=name,capital,population,languages,name.official,flags`).then(response => {
-		if (response.ok) {
-			return response.json();
-		}
-		Notify.failure("Oops, there is no country with that name");
-		reset1.innerHTML = ''; reset2.innerHTML = '';
-		throw new Error(response.status);
-	});
-};
+// function fetchCountries(name,reset1,reset2) {
+// 	return fetch(`https://restcountries.com/v3.1/name/${name}?fields=name,capital,population,languages,name.official,flags`).then(response => {
+// 		if (response.ok) {
+// 			return response.json();
+// 		}
+// 		Notify.failure("Oops, there is no country with that name");
+// 		reset1.innerHTML = ''; reset2.innerHTML = '';
+// 		throw new Error(response.status);
+// 	});
+// };
 //******* */
 // function render(countries, many, one, inner, reset) {
 // 	if(countries.length > 10) {

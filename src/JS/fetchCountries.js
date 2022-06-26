@@ -14,3 +14,5 @@ export default function fetchCountries(name, reset1, reset2) {
 		throw new Error(response.status);
 	});
 }
+
+
